@@ -1,6 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Force the provider so we don't have to type in --provider=docker all the time
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -19,11 +22,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 8080, host: 7070
+  config.vm.network "forwarded_port", guest: 8080, host: 6060
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  #config.vm.network "private_network", ip: "192.168.33.10"  
+  config.vm.network "private_network", ip: "192.168.33.10"  
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -51,6 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       d.force_host_vm = false
       d.remains_running = false
       d.create_args = ["-d", "-h", "127.0.0.1", "-P", "-p", "8080"]
+      d.has_ssh = true
     end
     v.ssh.username = "root"
     v.ssh.private_key_path = "phusion.key"
