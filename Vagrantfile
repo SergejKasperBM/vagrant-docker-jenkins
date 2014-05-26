@@ -48,9 +48,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.vm.provider "docker" do |d|
       d.build_dir = "./docker-jenkins"
       d.cmd = ["/sbin/my_init", "--enable-insecure-key"]
-      d.force_host_vm = true
+      d.force_host_vm = false
       d.remains_running = false
-      d.create_args = ["-d", "-h", "127.0.0.1:8080"]
+      d.create_args = ["-d", "-h", "127.0.0.1", "-P", "-p", "8080"]
     end
     v.ssh.username = "root"
     v.ssh.private_key_path = "phusion.key"
