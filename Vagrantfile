@@ -22,11 +22,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 8080, host: 6060
+  config.vm.network :forwarded_port, guest: 8080, host: 6060
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.10"  
+  # config.vm.network :private_network, ip: "192.168.10.101"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -35,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
-  # config.ssh.forward_agent = true
+  #config.ssh.forward_agent = true
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -46,14 +46,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
-  #
+  
   config.vm.define "app" do |v|
     v.vm.provider "docker" do |d|
       d.build_dir = "./docker-jenkins"
       d.cmd = ["/sbin/my_init", "--enable-insecure-key"]
       d.force_host_vm = false
       d.remains_running = false
-      d.create_args = ["-d", "-h", "127.0.0.1", "-P", "-p", "8080"]
+      d.create_args = ["-d", "-h", "0.0.0.0", "-P", "-p", ":8080"]
       d.has_ssh = true
     end
     v.ssh.username = "root"
@@ -66,7 +66,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       d.name = "db"
     end
   end
-  #
+  
+
   # View the documentation for the provider you're using for more
   # information on available options.
 
