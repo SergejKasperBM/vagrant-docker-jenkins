@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 # Force the provider so we don't have to type in --provider=docker all the time
-ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+#ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -13,11 +13,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  # config.vm.box = "percise64"
+  config.vm.box = "mitchellh/boot2docker"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  # config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -49,7 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.vm.define "app" do |v|
     v.vm.provider "docker" do |d|
-      d.build_dir = "./docker-jenkins"
+      d.build_dir = "./docker/jenkins"
       d.cmd = ["/sbin/my_init", "--enable-insecure-key"]
       d.force_host_vm = false
       d.remains_running = false
